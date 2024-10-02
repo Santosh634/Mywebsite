@@ -1,25 +1,24 @@
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('Welcome to my simple website!');
-
-    const fetchButton = document.getElementById('fetch-posts');
-    const postList = document.getElementById('post-list');
+    const fetchButton = document.getElementById('fetch-image');
+    const imageContainer = document.getElementById('image-container');
 
     fetchButton.addEventListener('click', async () => {
         try {
-            const response = await fetch('https://jsonplaceholder.typicode.com/posts');
+            const response = await fetch('https://api.unsplash.com/photos/random?client_id=yYDYPgqeNxJLiydoWurNkHF7ubDBoYyuE4KGeoq7aZM');
             const data = await response.json();
 
-            // Clear existing posts
-            postList.innerHTML = '';
+            // Clear existing images
+            imageContainer.innerHTML = '';
 
-            // Display the fetched posts
-            data.forEach(post => {
-                const listItem = document.createElement('li');
-                listItem.textContent = post.title; // Display the post title
-                postList.appendChild(listItem);
-            });
+            // Create an image element
+            const img = document.createElement('img');
+            img.src = data.urls.regular; // Get the image URL
+            img.alt = data.alt_description || 'Random Image';
+
+            // Append the image to the container
+            imageContainer.appendChild(img);
         } catch (error) {
-            console.error('Error fetching posts:', error);
+            console.error('Error fetching random image:', error);
         }
     });
 });
